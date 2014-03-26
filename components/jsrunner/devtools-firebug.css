@@ -1,0 +1,3 @@
+#fbHSplitter, #fbLargeCommandLineIcon, #fbWindowButtons, #fbToolbarIcon {
+    display: none !important;
+}
