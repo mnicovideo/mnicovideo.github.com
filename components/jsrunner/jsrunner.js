@@ -1,38 +1,63 @@
-(function() {
-  var exc = document.getElementById('exc');
-  var rst = document.getElementById('rst');
-  var ifm = document.getElementById('ifm');
-  var src = document.getElementById('src').innerHTML;
-  var editor = ace.edit('src');
-  editor.getSession().setMode('ace/mode/javascript');
-  ifm.addEventListener('load', function() {
-    new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].id === 'FirebugUI') {
-          var fUI = mutation.addedNodes[0];
-          fUI.addEventListener('load', function() {
-            var fUIDocument = fUI.contentWindow.document, e;
-            e = fUIDocument.createElement('link');
-            e.rel = 'stylesheet';
-            e.href = '../../../jsrunner/devtools-firebug.css';
-            fUIDocument.head.appendChild(e);
-            e = fUIDocument.createElement('script');
-            e.src = '../../../jsrunner/devtools-firebug.js';
-            fUIDocument.head.appendChild(e);
-          });
-        }
-      });
-    }).observe(ifm.contentWindow.document.body, {
-      childList: true
-    });
-  });
-  exc.addEventListener('click', function(evt) {
-    var e = ifm.contentWindow.document.createElement('script');
-    e.text = 'try { ' + editor.getValue() + ' } catch (e) { console.error(e); }';
-    ifm.contentWindow.document.body.appendChild(e);
-  });
-  rst.addEventListener('click', function(evt) {
-    editor.setValue(src);
-    ifm.contentWindow.location.reload();
-  });
-})();
+(function(global) {
+    var i;
+    var jsr = document.getElementsByClassName('jsrunner');
+    var exc = document.getElementsByClassName('exc');
+    var clr = document.getElementsByClassName('clr');
+    var ifm = document.getElementsByClassName('ifm');
+    var src = document.getElementsByClassName('src');
+    var editor = [];
+    for (i = 0; i < jsr.length; i++) {
+        var s = src[i].innerHTML;
+        editor[i] = ace.edit(src[i]);
+        editor[i].getSession().setMode('ace/mode/javascript');
+        (function(ii, ss) {
+            editor[ii].commands.addCommand({
+                name: 'myCommand',
+                bindKey: {
+                    win: 'Ctrl-E',
+                    mac: 'Command-E'
+                },
+                exec: function(editor) {
+                    exc[ii].click();
+                },
+                readOnly: false // false if this command should not apply in readOnly mode
+            });
+            ifm[ii].addEventListener('load', function() {
+                new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.addedNodes.length > 0 && mutation.addedNodes[0].id === 'FirebugUI') {
+                            var fUI = mutation.addedNodes[0];
+                            fUI.addEventListener('load', function() {
+                                var fUIDocument = fUI.contentWindow.document,
+                                    fbCommandLine = fUIDocument.getElementById('fbCommandLine'),
+                                    e,
+                                    targetFocused = function() {
+                                        this.blur();
+                                        e = fUIDocument.createElement('link');
+                                        e.rel = 'stylesheet';
+                                        e.href = '../../../jsrunner/devtools-firebug.css';
+                                        fUIDocument.head.appendChild(e);
+                                        e = fUIDocument.createElement('script');
+                                        e.src = '../../../jsrunner/devtools-firebug.js';
+                                        fUIDocument.head.appendChild(e);
+                                        fbCommandLine.removeEventListener('focus', targetFocused);
+                                    };
+                                fbCommandLine.addEventListener('focus', targetFocused);
+                            });
+                        }
+                    });
+                }).observe(ifm[ii].contentWindow.document.body, {
+                    childList: true
+                });
+            });
+            exc[ii].addEventListener('click', function(evt) {
+                var e = ifm[ii].contentWindow.document.createElement('script');
+                e.text = 'try {\n' + editor[ii].getValue() + '\n} catch (e) { console.error(e); }';
+                ifm[ii].contentWindow.document.body.appendChild(e);
+            });
+            clr[ii].addEventListener('click', function(evt) {
+                if (window.confirm('Are you sure?')) editor[ii].setValue(ss);
+            });
+        })(i, s);
+    }
+})(this);

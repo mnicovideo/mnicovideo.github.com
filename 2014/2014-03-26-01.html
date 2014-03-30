@@ -317,20 +317,25 @@ sup {
 
 <p>こうした。</p>
 
-<div id="jsrunner">
-<link rel="stylesheet" href="../components/jsrunner/jsrunner.css">
-<button id="exc">exec</button>
-<button id="rst">reset</button>
-<div id="src">if (!a) {
+<div class="jsrunner">
+<button class="exc"><span class="underline">e</span>xec</button>
+<button class="clr">clear</button>
+<div class="src">if (!a) { 
     // var を消すと？ resetボタンを押してからvarを消して実行してね
     var a=0;
 }
 console.log(a++);
 </div>
-<iframe id="ifm" src="../components/jsrunner/devtools.html"></iframe>
-<script type="text/javascript" src="../components/ace-builds/src-min-noconflict/ace.js" charset="utf-8"></script>
-<script type="text/javascript" src="../components/jsrunner/jsrunner.js"></script>
+<iframe class="ifm" src="../components/jsrunner/devtools.html"></iframe>
 </div>
+
+
+<p><link rel="stylesheet" href="../components/jsrunner/jsrunner.css"></p>
+
+<script type="text/javascript" src="../components/ace-builds/src-min-noconflict/ace.js" charset="utf-8"></script>
+
+
+<script type="text/javascript" src="../components/jsrunner/jsrunner.js"></script>
 
 
 <p>embeded jsrunnerを作ったからこれで書いて公開していく。</p>

@@ -302,16 +302,125 @@ sup {
 	}
 }
 </style>
-<title><div class="jsrunner">
-<button class="exc"><span class="underline">e</span>xec</button>
-<button class</title>
+<title>値渡しの実践。</title>
 
 </head>
 <body>
+<h1>JavaScript - 変数とデータ型とその代入のお話。</h1>
+
+<p>JavaScriptのデータ型のお話。</p>
+
+<p>データ型には大きく分けてプリミティブ型とオブジェクト型がある。</p>
+
+<p><strong>プリミティブ型</strong>とは文明化されていない型、機械寄りのデータ型。具体的には、文字列型・数値型・論理型・null・undefined の事。</p>
+
+<p><strong>オブジェクト型</strong>とはプリミティブ型でない型、人間寄りの概念を表す型。</p>
+
+<p>プログラムを書く場合、変数にデータを代入する。その代入の意味がプリミティブ型とオブジェクト型では違う。</p>
+
+<p>プリミティブ型を代入する場合は値渡しとなり、プリミティブ型を代入する場合は参照渡しとなる。</p>
+
+<p>値渡し・参照渡しとは・・・</p>
+
+<p>そろそろ論ばかりで眠くなるね。論よりRUN。実践が分かり易い。</p>
+
+<p>早速実践。</p>
+
+<h2>値渡しの実践。</h2>
+
 <div class="jsrunner">
 <button class="exc"><span class="underline">e</span>xec</button>
 <button class="clr">clear</button>
-<div class="src">// code here.
+<div class="src" style="height:300px;">// 文字列型の値渡し
+var a = 'something';
+var b = a;
+
+a += ' words.';
+
+console.log(a, b); // something words. something
+
+// 数値型の値渡し
+var x = 1;
+var y = x;
+
+++x;
+
+console.log(x, y); // 2 1
+
+</div>
+<iframe class="ifm" src="../components/jsrunner/devtools.html"></iframe>
+</div>
+
+
+<h2>参照渡しの実践。</h2>
+
+<div class="jsrunner">
+<button class="exc"><span class="underline">e</span>xec</button>
+<button class="clr">clear</button>
+<div class="src" style="height:360px;">// 配列型の参照渡し
+var src = [1, 2, 3];
+var dst = src;
+ 
+src[1] = 0;
+ 
+console.log(src[1], dst[1]); // 0 0
+
+// オブジェクト型の参照渡し
+var x = {
+    a:1,
+    b:2,
+    c:3
+};
+var y = x;
+
+x.a = 100;
+
+console.log(x.a, y.a); // 100 100
+
+</div>
+<iframe class="ifm" src="../components/jsrunner/devtools.html"></iframe>
+</div>
+
+
+<p>なるほど、値渡しと参照渡しが見えてきた。</p>
+
+<p>これでもう変数への代入は問題無し。</p>
+
+<p>次の罠の理由までわかれば完璧です。</p>
+
+<h2>罠</h2>
+
+<div class="jsrunner">
+<button class="exc"><span class="underline">e</span>xec</button>
+<button class="clr">clear</button>
+<div class="src">// 交換1
+var foo = [1], bar = [2], tmp;
+tmp = foo;
+foo = bar;
+bar = tmp;
+
+console.log(foo, bar);
+</div>
+<iframe class="ifm" src="../components/jsrunner/devtools.html"></iframe>
+</div>
+
+
+
+
+<div class="jsrunner">
+<button class="exc"><span class="underline">e</span>xec</button>
+<button class="clr">clear</button>
+<div class="src" style="height:200px;">// 交換2
+var foo = [1], bar = [2], tmp;
+function swap(x, y) {
+    tmp = x;
+    x = y;
+    y = tmp;
+}
+swap(foo, bar);
+
+console.log(foo, bar);
+
 </div>
 <iframe class="ifm" src="../components/jsrunner/devtools.html"></iframe>
 </div>
@@ -324,5 +433,13 @@ sup {
 
 <script type="text/javascript" src="../components/jsrunner/jsrunner.js"></script>
 
+
+<p>人の思考ではこれって交換出来るはずなのに、何故か出来ていない？？？</p>
+
+<p>まあこれは騙しのテクニック。プリミティブかオブジェクトかの話ではないのです。</p>
+
+<p>変数とは何なのか？　どんな性質があるのか？</p>
+
+<p>次辺りで、その話をしてみたいと思います。</p>
 </body>
 </html>
