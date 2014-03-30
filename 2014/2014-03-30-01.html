@@ -361,15 +361,15 @@ $_('$FirstGene')
     .give_($_('$ThirdGene')
         .prop('name', 'MacOSX')
     )
-    .give_($_('$Fourth')
+    .give_($_('$FourthGene')
         .prop('name', 'iOS')
     );
 
-var currentOS = new ($_('Fourth'))();
+var currentOS = new ($_('FourthGene'))();
 
 // I think to take example.
 
-$_('$Fourth')
+$_('$FourthGene')
     .prop('name', 'iOS')
     .take_($_('$ThirdGene')
         .prop('name', 'MacOSX')
@@ -384,7 +384,7 @@ $_('$Fourth')
         })
     );
 
-var currentOS = new ($_('Fourth'))();
+var currentOS = new ($_('FourthGene'))();
 
 
 
