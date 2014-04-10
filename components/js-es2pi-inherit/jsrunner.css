@@ -1,0 +1,17 @@
+.src, .ifm {
+    border: 1px solid silver;
+    width: 100%;
+}
+.src {
+    height: 150px;
+    border-bottom: 0;
+}
+.ifm {
+    height: 200px;
+}
+.right {
+    float: right;
+}
+.underline {
+    text-decoration: underline;
+}
